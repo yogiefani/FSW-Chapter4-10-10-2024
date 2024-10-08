@@ -1,5 +1,7 @@
 const express = require("express");
-const userRoutes = require("./routes/routes");
+const usersRoute = require("./routes/usersRoute");
+const carsRoute = require("./routes/carsRoute");
+const sparepartsRoute = require("./routes/sparepartsRoute");
 
 const app = express();
 const port = 3000;
@@ -7,8 +9,28 @@ const port = 3000;
 // Reading json from body (client)
 app.use(express.json());
 
+// Health Check
+app.get("/", async (req, res) => {
+    try {
+        res.status(200).json({
+            status: "Succeed",
+            message: "Ping successfully",
+            isSuccess: true,
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "Failed",
+            message: "Ping failed",
+            isSuccess: false,
+            error: error.message,
+        });
+    }
+});
+
 // Routes
-app.use(userRoutes);
+app.use("/api/v1/users", usersRoute);
+app.use("/api/v1/cars", carsRoute);
+app.use("/api/v1/spareparts", sparepartsRoute);
 
 // Middleware to handle page not found
 app.use((req, res, next) => {
@@ -17,8 +39,6 @@ app.use((req, res, next) => {
         message: "API not found !",
         isSuccess: false,
     });
-    // Go to the next middleware
-    next();
 });
 
 app.listen(port, () => {

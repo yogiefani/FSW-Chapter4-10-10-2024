@@ -1,23 +1,5 @@
 const { User } = require("../models");
 
-// Health check
-function healthCheck(req, res) {
-    try {
-        res.status(200).json({
-            status: "Succeed",
-            message: "Ping successfully",
-            isSuccess: true,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            status: "Failed",
-            message: "Ping failed",
-            isSuccess: false,
-        });
-    }
-}
-
 // Function for get all user data
 async function getAllUser(req, res) {
     try {
@@ -165,7 +147,6 @@ async function createUser(req, res) {
 }
 
 module.exports = {
-    healthCheck,
     getAllUser,
     getUserById,
     deleteUserById,
