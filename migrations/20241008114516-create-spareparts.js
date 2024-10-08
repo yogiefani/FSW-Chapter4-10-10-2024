@@ -2,23 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Cars', {
+    await queryInterface.createTable('Spareparts', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      model: {
+      name: {
         type: Sequelize.STRING
       },
-      plate: {
+      typecar: {
         type: Sequelize.STRING
       },
-      type: {
-        type: Sequelize.STRING
+      price: {
+        type: Sequelize.INTEGER
       },
-      year: {
+      stock: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -32,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Cars');
+    await queryInterface.dropTable('Spareparts');
   }
 };
