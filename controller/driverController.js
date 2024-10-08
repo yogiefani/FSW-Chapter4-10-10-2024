@@ -46,8 +46,39 @@ async function getDriverById(req, res) {
     });
   }
 }
+async function deleteDriverById(req, res) {
+  const id = req.params.id;
+  try {
+    const driver = await Driver.findByPk(id);
 
-module.exports = { 
+    if (driver) {
+      await driver.destroy();
+
+      res.status(200).json({
+        status: "200",
+        message: "Success get drivers data",
+        isSuccess: true,
+        data: driver,
+      });
+    } else {
+      res.status(200).json({
+        status: "204",
+        message: "Success delete drivers data",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: "500",
+      message: "Failed to get cars data",
+      isSuccess: false,
+      error: error.message,
+      data: null,
+    });
+  }
+}
+
+module.exports = {
   getAllDrivers,
-  getDriverById
+  getDriverById,
+  deleteDriverById,
 };
