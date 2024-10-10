@@ -17,9 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     license_number: DataTypes.INTEGER,
     contact: DataTypes.INTEGER
-  }, {
+  }, 
+  {
     sequelize,
     modelName: 'Driver',
+    timestamps: false
   });
   return Driver;
 };
