@@ -2,6 +2,12 @@ const { Car } = require("../models");
 
 async function getAllCars(req, res) {
     try {
+        console.log("proses saat ada yang request")
+        console.log(req.requestTime);
+        console.log("proses siapa yang request")
+        console.log(req.username);
+        console.log("proses apa yang diminta")
+        console.log(req.originalUrl);
         const cars = await Car.findAll();
 
         res.status(200).json({
