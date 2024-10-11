@@ -1,4 +1,7 @@
 const { User } = require("../models");
+const Imagekit = require("../lib/imagekit");
+const upload = require("../middlewares/uploader");
+
 
 // Function for get all user data
 async function getAllUser(req, res) {
@@ -124,16 +127,39 @@ async function UpdateUserById(req, res) {
 }
 
 async function createUser(req, res) {
+    const file = req.file;
+    console.log(req.file);
+    //1. processing file nya
+    const split = file.originalname.split(".")
+    //yogi.pdf = ['yogi','pdf'] = length 2
+    const ext = split[split.lenght - 1]
+    const filename = split[0]
+
+    //2. upload image ke server
+    const uploadedImage = await Imagekit.upload({
+        file: file.buffer,  
+        fileName: `Profile-${filename}-${Date.now()}.${ext}`
+    })
+
+    if(!uploadedImage){
+        return res.status(400).json({
+            status: "Failed",
+            message: "Failed to add user data because file not define",
+            isSuccess: false,
+            data: null,
+        })
+    }
+
     const newUser = req.body;
 
     try {
-        await User.create(newUser);
+        await User.create({...newUser, photoProfile: uploadedImage.url});
 
         res.status(200).json({
             status: "Success",
             message: "Successfully added user data",
             isSuccess: true,
-            data: { newUser },
+            data: { ...newUser, photoProfile: uploadedImage.url },
         });
     } catch (error) {
         res.status(500).json({

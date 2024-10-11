@@ -1,6 +1,11 @@
 const express = require("express");
+
+const upload = require('../middlewares/uploader');
 const router = express.Router();
+
 const userController = require("../controller/userController");
+
+
 
 // API for get all users data
 router.get("/", userController.getAllUser);
@@ -15,6 +20,6 @@ router.delete("/:id", userController.deleteUserById);
 router.patch("/:id", userController.UpdateUserById);
 
 // API for create new user data
-router.post("/", userController.createUser);
+router.post("/", upload.single('photo'), userController.createUser);
 
 module.exports = router;
